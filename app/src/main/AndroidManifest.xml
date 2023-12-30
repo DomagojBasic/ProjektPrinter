@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- ___________________Potrebno za Mapu___________________ -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/baseline_print_24"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/baseline_print_24"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ProjektDB"
+        tools:targetApi="31">
+        <activity
+            android:name=".UnosObjekata"
+            android:exported="false" />
+        <activity
+            android:name=".Mapa"
+            android:exported="false" />
+        <activity
+            android:name=".Oaplikaciji"
+            android:exported="false" />
+        <activity
+            android:name=".PrikazPrinteraLDC"
+            android:exported="false" />
+        <activity
+            android:name=".PrikazPrinteraServis"
+            android:exported="false" />
+        <activity
+            android:name=".Printeri"
+            android:exported="false" />
+        <activity
+            android:name=".UnosPrintera"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+            <!-- ___________________Potrebno za Menu___________________ -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- ___________________Potrebno za Menu___________________ -->
+        </activity> <!-- ___________________Potrebno za Mapu___________________ -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyByY5QyBvFm9jyBoTslgqHIrBOoPchIKHo" />
+    </application>
+
+</manifest>

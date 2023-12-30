@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1030040815450",
+    "firebase_url": "https://evidencijaprinteradb-default-rtdb.firebaseio.com",
+    "project_id": "evidencijaprinteradb",
+    "storage_bucket": "evidencijaprinteradb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030040815450:android:7d79a621b8a861f9225563",
+        "android_client_info": {
+          "package_name": "com.example.projektdb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPg6qz2Pj4Kb4L0F59aN28UWWsZW8AK18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
