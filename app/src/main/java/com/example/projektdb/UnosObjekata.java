@@ -19,8 +19,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class UnosObjekata extends AppCompatActivity {
@@ -39,6 +43,45 @@ public class UnosObjekata extends AppCompatActivity {
 
         TextView empty = findViewById(R.id.empty);
         RecyclerView recyclerView = findViewById(R.id.recycler);
+
+
+        database.getReference().child("objekti").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Objekti> arrayListObjekti = new ArrayList<>();
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    Objekti objekt = dataSnapshot.getValue(Objekti.class);
+                    Objects.requireNonNull(objekt).setKey(dataSnapshot.getKey());
+                    arrayListObjekti.add(objekt);
+
+                }
+                if (arrayListObjekti.isEmpty()) {
+                    empty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }
+                else {
+                    empty.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                ObjektiAdapter adapter = new ObjektiAdapter(UnosObjekata.this, arrayListObjekti);
+                recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+
+
+
 
         btnUnosObjekata.setOnClickListener(new View.OnClickListener() {
             @Override
