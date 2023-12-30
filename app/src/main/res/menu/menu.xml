@@ -4,7 +4,7 @@
 
     <item android:title="Unos printera"
         android:id="@+id/unos_printera" />
-    <item android:title="O aplikaciji"
-        android:id="@+id/o_aplikaciji"/>
+    <item android:title="Unos objekata"
+        android:id="@+id/unos_objekata"/>
 </menu>
 

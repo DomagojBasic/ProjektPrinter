@@ -209,8 +209,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this,UnosPrintera.class);
             startActivity(intent);
 
-        }else if(id == R.id.o_aplikaciji){
-            Intent intent = new Intent(this,Oaplikaciji.class);
+        }else if(id == R.id.unos_objekata){
+            Intent intent = new Intent(this,UnosObjekata.class);
             startActivity(intent);}
 
         return super.onOptionsItemSelected(item);

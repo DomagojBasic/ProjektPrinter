@@ -51,7 +51,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
         holder.title.setText(arrayList.get(position).getTitle());
         holder.subtitle.setText(arrayList.get(position).getContent());
         //Prilikom klika na red poziva se metoda onClick.
-        holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayList.get(position)));
+       holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayList.get(position)));
 
     }
 
