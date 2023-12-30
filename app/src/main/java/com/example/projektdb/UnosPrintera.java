@@ -37,7 +37,6 @@ public class UnosPrintera extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    TextView title, subtitle;
 
 
             @Override

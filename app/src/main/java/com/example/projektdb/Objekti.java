@@ -4,6 +4,11 @@ public class Objekti {
 
     String key, title, content;
 
+    public Objekti() {
+
+
+    }
+
     public String getKey() {
         return key;
     }
