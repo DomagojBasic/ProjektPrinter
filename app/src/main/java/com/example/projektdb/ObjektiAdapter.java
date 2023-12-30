@@ -52,6 +52,7 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
         }
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 
     public interface OnItemClickListener{

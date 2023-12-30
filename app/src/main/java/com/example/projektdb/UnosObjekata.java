@@ -67,6 +67,98 @@ public class UnosObjekata extends AppCompatActivity {
                 ObjektiAdapter adapter = new ObjektiAdapter(UnosObjekata.this, arrayListObjekti);
                 recyclerView.setAdapter(adapter);
 
+                adapter.setOnItemClickListener(new ObjektiAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(Objekti objekt) {
+                        View view = LayoutInflater.from(UnosObjekata.this).inflate(R.layout.add_objekti_dialog, null);
+                        TextInputLayout titleLayout, contentLayout;
+                        TextInputEditText titleET, contentET;
+
+                        titleET = view.findViewById(R.id.titleET);
+                        contentET = view.findViewById(R.id.contentET);
+                        titleLayout = view.findViewById(R.id.titleLayout);
+                        contentLayout = view.findViewById(R.id.contentLayout);
+
+                        titleET.setText(objekt.getTitle());
+                        contentET.setText(objekt.getContent());
+
+
+
+                        ProgressDialog progressDialog = new ProgressDialog(UnosObjekata.this);
+
+                        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(UnosObjekata.this)
+                                .setTitle("Edit")
+                                .setView(view)
+                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty())  {
+                                            titleLayout.setError("This field is required!");
+                                        } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
+                                            contentLayout.setError("This field is required!");
+                                        } else {
+                                            String unesenaVrijednost = Objects.requireNonNull(titleET.getText()).toString();
+                                            // Provjera je li već unesena ista vrijednost
+                                            if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
+                                                // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
+                                                Toast.makeText(UnosObjekata.this,"ne smije biti ista",Toast.LENGTH_SHORT).show();
+                                            }
+
+
+
+                                            progressDialog.setMessage("Saving...");
+                                            progressDialog.show();
+                                            Objekti objekti1 = new Objekti();
+                                            objekti1.setTitle(titleET.getText().toString());
+                                            objekti1.setContent(contentET.getText().toString());
+
+                                            database.getReference().child("objekti").child(objekt.getKey()).setValue(objekti1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    progressDialog.dismiss();
+                                                    dialogInterface.dismiss();
+                                                    Toast.makeText(UnosObjekata.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(UnosObjekata.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }
+                                })
+                                .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        progressDialog.setTitle("Deleting...");
+                                        progressDialog.show();
+                                        database.getReference().child("objekti").child(objekt.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(UnosObjekata.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                progressDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }).create();
+                        alertDialog.show();
+
+                    }
+
+                });
             }
 
             @Override
@@ -74,13 +166,6 @@ public class UnosObjekata extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
 
 
         btnUnosObjekata.setOnClickListener(new View.OnClickListener() {
