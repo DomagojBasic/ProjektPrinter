@@ -33,13 +33,11 @@ public class PrikazPrinteraServis extends AppCompatActivity {
         ArrayList<Printeri> arrayList = new ArrayList<>();
         PrinterAdapterServis adapterServis = new PrinterAdapterServis(PrikazPrinteraServis.this, arrayList);
 
-        recyclerView.setAdapter(adapterServis);
-
         database.getReference().child("printeriServis").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Printeri printeri = dataSnapshot.getValue(Printeri.class);
                     Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
                     arrayList.add(printeri);
@@ -53,8 +51,6 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-
-                PrinterAdapterServis adapterServis = new PrinterAdapterServis(PrikazPrinteraServis.this, arrayList);
                 recyclerView.setAdapter(adapterServis);
 
                 adapterServis.setOnItemClickListener(new PrinterAdapterServis.OnItemClickListener() {
@@ -75,6 +71,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                         // Obavijesti adapter o promjeni podataka
                         adapterServis.notifyItemRemoved(position);
 
+                        recreate();
 
                     }
 
@@ -90,6 +87,8 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                         // Obavijesti adapter o promjeni podataka
                         adapterServis.notifyItemRemoved(position);
 
+                        recreate();
+
 
                     }
 
@@ -100,19 +99,19 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                 });
 
 
-
                 Button btnPovratak = findViewById(R.id.btn_Povratak);
 
-        btnPovratak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PrikazPrinteraServis.this,MainActivity.class);
-                startActivity(intent);
+                btnPovratak.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(PrikazPrinteraServis.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+
             }
-        });
 
-
-    }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -120,7 +119,5 @@ public class PrikazPrinteraServis extends AppCompatActivity {
         });
 
 
-
-
-        }
+    }
 }

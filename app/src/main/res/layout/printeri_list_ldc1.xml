@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70sp"
+        android:layout_height="100sp"
         android:background="#F8E6E6"
         android:padding="10sp"
         tools:ignore="MissingConstraints">
@@ -63,6 +63,17 @@
             android:layout_marginEnd="5sp"
             android:singleLine="true"
             android:text="S/N:" />
+
+        <TextView
+            android:id="@+id/list_objekt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_item_title"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="5sp"
+            android:singleLine="true"
+            android:text="Objekt" />
 
     </RelativeLayout>
 

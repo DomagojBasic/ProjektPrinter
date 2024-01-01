@@ -63,4 +63,7 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
         return arrayListObjekti.size();
     }
 
+
+
+
 }
