@@ -49,20 +49,13 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(MainActivity.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-
         TextView empty = findViewById(R.id.empty);
-
         RecyclerView recyclerView = findViewById(R.id.recycler);
-
         ArrayList<Printeri> arrayList = new ArrayList<>();
-
-
         PrinterAdapter adapter = new PrinterAdapter(this, arrayList);
         recyclerView.setAdapter(adapter);
 
-
-
-
+        /*______________________________________Prikaz printera(informatika) u recycle-u_______________________________________________________*/
         database.getReference().child("printeri").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,12 +77,17 @@ public class MainActivity extends AppCompatActivity {
                 PrinterAdapter adapter = new PrinterAdapter(MainActivity.this, arrayList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+                /*______________________________________Prikaz printera(informatika) u recycle-u_______________________________________________________*/
+
 
                 adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
                     @Override
                     public void onClick(Printeri printeri) {
 
                     }
+
+
+                    /*______________________________________btnLDC_______________________________________________________*/
 
                     @Override
                     public void onBtnLDCClick(Printeri printeri, int position) {
@@ -98,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
                         TextInputEditText titleET, contentET;
                         Spinner spinner;
                         spinner = view.findViewById(R.id.spinner);
-                        ArrayList<Objekti> arrayListObjekti = new ArrayList<>();
+                        ArrayList<Objekti> arrayListObjekti = new ArrayList<>(); // Lista objekata
                         ObjektiAdapterSpinner objektiAdapter = new ObjektiAdapterSpinner(MainActivity.this, arrayListObjekti);
                         DatabaseReference spinnerRef;
 
                         // Fetch data from Firebase Realtime Database for Objekti
-                        spinnerRef = FirebaseDatabase.getInstance().getReference("objekti");
+                        spinnerRef = FirebaseDatabase.getInstance().getReference("objekti"); // dobavljanje liste objeakta
                         spinnerRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -130,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
 
-                        // Set adapter for the spinner
-                        spinner.setAdapter(objektiAdapter);
-
+                        spinner.setAdapter(objektiAdapter);// prikaz objekata u spineru
+                        /*______________Metoda uređivanja - korištena da prilikom klika preuzme parametre odabranog printera___________*/
                         titleET = view.findViewById(R.id.titleET);
                         contentET = view.findViewById(R.id.contentET);
                         titleLayout = view.findViewById(R.id.titleLayout);
@@ -150,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty())  {
+                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
                                             titleLayout.setError("This field is required!");
                                         } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
                                             contentLayout.setError("This field is required!");
@@ -159,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                                             // Provjera je li već unesena ista vrijednost
                                             if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
                                                 // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
-                                                Toast.makeText(MainActivity.this,"ne smije biti ista",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MainActivity.this, "ne smije biti ista", Toast.LENGTH_SHORT).show();
                                             }
 
 
@@ -213,11 +210,24 @@ public class MainActivity extends AppCompatActivity {
                         alertDialog.show();
 
 
+                        /*______________Metoda uređivanja - korištena da prilikom klika preuzme parametre odabranog printera___________*/
 
+                        //Trenutacno - Prilikom pritiska gumba LDC na printeru otvara se dihalog koji preuzima printerove podatke i dodaje odabir objekta
 
-                        //otvoriti prozot (dijalog)
-                        // odabrati objekt
-                        //spremiti
+                        /*Potrebno je:
+                        1.Prilikom odabira spremi - sprema se printer sa objektom u Activity (Prikaz printera LDC)
+
+                        Problem:
+                        -Da li je potrebno stvoriti novu ArrayListu koja ce prikazivati postojeci printer + objekt?
+                        -Da li se problem da rjesiti spajanjem 2 liste (objekti i printeri)
+                        -Da li se problem moze rjesiti prikazivanjem posebno 1 liste i naknadno 2 liste?
+
+                        Rješenje:
+                        Koristiti 1 ArrayListu printera koja prilikom unosa printera odabire se da li je printer u informatici,servisu ili LDC-u.
+                        Prikaz printera  na osnovu toga
+                        Nakon toga dodati listu objekata
+                        
+*/
                         /*
 
                         // Ukloni element iz ArrayList
@@ -248,9 +258,9 @@ public class MainActivity extends AppCompatActivity {
                         //refresh stranice
                         // refreshData();
                         // Obavijesti adapter o promjeni podataka
-                        adapter.notifyItemRemoved(position);
+                        //adapter.notifyItemRemoved(position);
 
-                        recreate();
+                       recreate();
 
                     }
                 });
@@ -302,7 +312,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.e("proba", "proba");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
@@ -344,9 +353,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, UnosPrintera.class);
             startActivity(intent);
 
-        }else if(id == R.id.unos_objekata) {
+        } else if (id == R.id.unos_objekata) {
             Intent intent = new Intent(this, UnosObjekata.class);
-            startActivity(intent);}
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

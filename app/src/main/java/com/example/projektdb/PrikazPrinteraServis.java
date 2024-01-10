@@ -71,7 +71,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                         // Obavijesti adapter o promjeni podataka
                         adapterServis.notifyItemRemoved(position);
 
-                        recreate();
+                      recreate();
 
                     }
 
