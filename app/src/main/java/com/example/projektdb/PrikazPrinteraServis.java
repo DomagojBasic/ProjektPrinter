@@ -31,16 +31,25 @@ public class PrikazPrinteraServis extends AppCompatActivity {
 
 
         ArrayList<Printeri> arrayList = new ArrayList<>();
-        PrinterAdapterServis adapterServis = new PrinterAdapterServis(PrikazPrinteraServis.this, arrayList);
+        PrinterAdapter adapterServis = new PrinterAdapter(PrikazPrinteraServis.this, arrayList);
 
-        database.getReference().child("printeriServis").addValueEventListener(new ValueEventListener() {
+        database.getReference().child("printeri").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Printeri printeri = dataSnapshot.getValue(Printeri.class);
-                    Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
-                    arrayList.add(printeri);
+
+                    if (printeri != null && printeri.isCheckBoxServis()) {
+                        Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
+                        arrayList.add(printeri);
+
+                        PrinterAdapter adapter = new PrinterAdapter(PrikazPrinteraServis.this, arrayList);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+
+                    }
                 }
 
                 if (arrayList.isEmpty()) {
@@ -51,49 +60,11 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                recyclerView.setAdapter(adapterServis);
+                adapterServis.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
 
-                adapterServis.setOnItemClickListener(new PrinterAdapterServis.OnItemClickListener() {
-                    @Override
-                    public void onClick(Printeri printeri) {
-
-                    }
 
                     @Override
-                    public void onBtnLDCClick(Printeri printeri, int position) {
-                        // Ukloni element iz ArrayList
-                        arrayList.remove(position);
-                        //Dodavanje printera u printeriLDC
-                        database.getReference().child("printeriLDC").push().setValue(printeri);
-                        //brisanje printera
-                        database.getReference().child("printeriServis").child(printeri.getKey()).removeValue(); // brisanje odabranog printera iz baze
-
-                        // Obavijesti adapter o promjeni podataka
-                        adapterServis.notifyItemRemoved(position);
-
-                      recreate();
-
-                    }
-
-                    @Override
-                    public void onBtnInformatikaClick(Printeri printeri, int position) {
-                        // Ukloni element iz ArrayList
-                        arrayList.remove(position);
-                        //Dodavanje printera u printeriLDC
-                        database.getReference().child("printeri").push().setValue(printeri);
-                        //brisanje printera
-                        database.getReference().child("printeriServis").child(printeri.getKey()).removeValue(); // brisanje odabranog printera iz baze
-
-                        // Obavijesti adapter o promjeni podataka
-                        adapterServis.notifyItemRemoved(position);
-
-                        recreate();
-
-
-                    }
-
-                    @Override
-                    public void onBtnServisClick(Printeri printeri, int position) {
+                    public void onClick(Printeri printeri, int position) {
 
                     }
                 });

@@ -13,32 +13,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70sp"
+        android:layout_height="100sp"
         android:background="#F8E6E6"
         android:padding="10sp"
         tools:ignore="MissingConstraints">
-
-        <Button
-            android:id="@+id/btnLDC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="100dp"
-            android:text="LDC"
-            app:cornerRadius="0dp" />
-
-        <Button
-            android:id="@+id/btnServis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="Servis"
-            app:cornerRadius="0dp" />
 
         <TextView
             android:id="@+id/list_item_title"
@@ -49,9 +27,9 @@
             android:layout_marginEnd="5sp"
             android:layout_marginBottom="5sp"
             android:singleLine="true"
-            android:text="Model"
+            android:text="Model printera"
             android:textColor="?attr/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -61,8 +39,38 @@
             android:layout_below="@id/list_item_title"
             android:layout_marginStart="5sp"
             android:layout_marginEnd="5sp"
+            android:textSize="16dp"
             android:singleLine="true"
             android:text="S/N:" />
+
+        <CheckBox
+            android:id="@+id/checkBoxInformatika"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toStartOf="@+id/checkBoxLDC"
+            android:text="Informatika" />
+
+        <CheckBox
+            android:id="@+id/checkBoxLDC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toStartOf="@+id/checkBoxServis"
+            android:text="LDC" />
+        <CheckBox
+            android:id="@+id/checkBoxServis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+           android:layout_alignParentRight="true"
+            android:text="Servis" />
+
 
     </RelativeLayout>
 

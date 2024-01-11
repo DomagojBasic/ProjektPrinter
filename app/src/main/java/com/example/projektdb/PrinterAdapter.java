@@ -1,13 +1,11 @@
 package com.example.projektdb;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,21 +35,24 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    View view = LayoutInflater.from(context).inflate(R.layout.printeri_list_item, parent, false);
-    Log.e("proba1","ispisivanje");
+    View view = LayoutInflater.from(context).inflate(R.layout.printeri_objekti_list_item, parent, false);
         return new ViewHolder(view);
     }
     /*1. metoda ________________________________________________________________________________________________________*/
 
 
-    /*2. metoda - Ovom metodom ubacujemo podatke u Layout printeri_list_item.xml*/
+    /*2. metoda - Ovom metodom ubacujemo podatke u Layout */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         // postavljanje teksta u TextView (title). arrayList.get(position) - pozicija.. .getTitle (metoda kreirana u Printeri.class)
         holder.title.setText(arrayList.get(position).getTitle());
-        holder.subtitle.setText(arrayList.get(position).getContent());
+       holder.subtitle.setText(arrayList.get(position).getContent());
+       //holder.checkBoxInformatika.setText(arrayList.get(position).getContent());
+       //holder.checkBoxServis.setText(arrayList.get(position).getContent());
+      // holder.checkBoxLDC.setText(arrayList.get(position).getContent());
         //Prilikom klika na red poziva se metoda onClick.
-       holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayList.get(position)));
+      // holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayList.get(position)));
 
     }
 
@@ -62,12 +63,25 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
     /*Metoda 3. Koristi za pristup i manipulaciju title i subtitle TextView elementima unutar svakog pojedinačnog reda u RecyclerView-u.*/
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, subtitle;
+        CheckBox checkBoxInformatika,checkBoxLDC, checkBoxServis;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            //definicija reda koji ce se prikazati u Recycle View
+          //definicija reda koji ce se prikazati u Recycle View
             title = itemView.findViewById(R.id.list_item_title);
             subtitle = itemView.findViewById(R.id.list_item_subtitle);
+            checkBoxInformatika = itemView.findViewById(R.id.checkBoxInformatika);
+            checkBoxServis = itemView.findViewById(R.id.checkBoxServis);
+            checkBoxLDC = itemView.findViewById(R.id.checkBoxLDC);
 
+            itemView.findViewById(R.id.list_item_title).setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onClick(arrayList.get(position), position);
+                    }
+                }
+            });
+/*
             itemView.findViewById(R.id.btnLDC).setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     int position = getAdapterPosition();
@@ -84,7 +98,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
                         onItemClickListener.onBtnServisClick(arrayList.get(position), position);
                     }
                 }
-            });
+            });*/
         }
     }
     /*Metoda 3.___________________________________________________________________________________________________________________*/
@@ -109,9 +123,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
 
     //Kada korisnik klikne na stavku u RecyclerView-u, implementacija ove metode će se pozvati
     public interface OnItemClickListener {
-        void onClick(Printeri printeri);
-        void onBtnLDCClick(Printeri printeri, int position);
-        void onBtnServisClick(Printeri printeri, int position);
+        void onClick(Printeri printeri, int position);
     }
 
     //______________________________________________________________________________________________

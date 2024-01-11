@@ -10,15 +10,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_marginTop="24dp"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#BCB6B6"
         android:gravity="center"
-        android:text="Dostupni printer u informatici"
+        android:text="Zamjenski printeri"
         android:textSize="20sp"
-        android:textStyle="bold"  />
+        android:textStyle="bold" />
 
 
     <Button

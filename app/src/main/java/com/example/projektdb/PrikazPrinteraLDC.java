@@ -33,22 +33,28 @@ public class PrikazPrinteraLDC extends AppCompatActivity {
         TextView empty = findViewById(R.id.empty);
         RecyclerView recyclerView = findViewById(R.id.recyclerLDC);
         ArrayList<Printeri> arrayList = new ArrayList<>();
+        ArrayList<Objekti> arrayListObjekti = new ArrayList<>(); // za objekte
+
         progressBar2 = findViewById(R.id.progressBar2);
 
-        PrinterAdapterLDC adapterLDC = new PrinterAdapterLDC(PrikazPrinteraLDC.this, arrayList);
+        PrinterAdapter adapter = new PrinterAdapter(this, arrayList);
 
-        Log.e("Postavljanj adaptera:","Prije database");
-
-
-        database.getReference().child("printeriLDC").addValueEventListener(new ValueEventListener() {
+        database.getReference().child("printeri").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    PrinteriLDC printeri = dataSnapshot.getValue(PrinteriLDC.class);
-                    Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
-                    arrayList.add(printeri);
+                    Printeri printeri = dataSnapshot.getValue(Printeri.class);
 
+                    if (printeri != null && printeri.isCheckBoxLDC()) {
+                        Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
+                        arrayList.add(printeri);
+
+                        PrinterAdapter adapter = new PrinterAdapter(PrikazPrinteraLDC.this, arrayList);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+                    }
                 }
 
                 if (arrayList.isEmpty()) {
@@ -59,52 +65,11 @@ public class PrikazPrinteraLDC extends AppCompatActivity {
                     empty.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
-                recyclerView.setAdapter(adapterLDC);
 
-                Log.e("Postavljanj adaptera:","POSLJE database");
-
-
-                adapterLDC.setOnItemClickListener(new PrinterAdapterLDC.OnItemClickListener() {
-                    @Override
-                    public void onClick(Printeri printeri) {
-
-                    }
+                adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
 
                     @Override
-                    public void onBtnLDCClick(Printeri printeri, int position) {
-
-                    }
-
-                    @Override
-                    public void onBtnInformatikaClick(Printeri printeri, int position) {
-
-                        progressBar2.setVisibility(View.VISIBLE);
-
-                        //Dodavanje printera u printeriLDC
-                        database.getReference().child("printeri").push().setValue(printeri);
-                        database.getReference().child("printeriLDC").child(printeri.getKey()).removeValue(); // brisanje odabranog printera iz baze
-                        // Ukloni element iz ArrayList
-                        arrayList.remove(position);
-
-                        adapterLDC.notifyItemRemoved(position);
-
-                        recreate();
-
-
-                    }
-
-                    @Override
-                    public void onBtnServisClick(Printeri printeri, int position) {
-                        // Ukloni element iz ArrayList
-                        arrayList.remove(position);
-                        //Dodavanje printera u printeriLDC
-                        database.getReference().child("printeriServis").push().setValue(printeri);
-                        //brisanje printera
-                        database.getReference().child("printeriLDC").child(printeri.getKey()).removeValue(); // brisanje odabranog printera iz baze
-
-                        // Obavijesti adapter o promjeni podataka
-                        adapterLDC.notifyItemRemoved(position);
-                        recreate();
+                    public void onClick(Printeri printeri, int position) {
 
                     }
                 });

@@ -1,38 +1,48 @@
 package com.example.projektdb;
 
-import android.widget.Button;
-
 public class Printeri {
     String key, title, content;
+    boolean checkBoxInformatika, checkBoxServis, checkBoxLDC;
 
-    Button btnLDC;
-    Button btnServis;
 
+    public Printeri(String key, String title, String content, boolean checkBoxInformatika, boolean checkBoxServis, boolean checkBoxLDC) {
+        this.key = key;
+        this.title = title;
+        this.content = content;
+        this.checkBoxInformatika = checkBoxInformatika;
+        this.checkBoxServis = checkBoxServis;
+        this.checkBoxLDC = checkBoxLDC;
+    }
+
+    public boolean isCheckBoxInformatika() {
+        return checkBoxInformatika;
+    }
+
+    public void setCheckBoxInformatika(boolean checkBoxInformatika) {
+        this.checkBoxInformatika = checkBoxInformatika;
+    }
+
+    public boolean isCheckBoxServis() {
+        return checkBoxServis;
+    }
+
+    public void setCheckBoxServis(boolean checkBoxServis) {
+        this.checkBoxServis = checkBoxServis;
+    }
+
+    public boolean isCheckBoxLDC() {
+        return checkBoxLDC;
+    }
+
+    public void setCheckBoxLDC(boolean checkBoxLDC) {
+        this.checkBoxLDC = checkBoxLDC;
+    }
 
     public Printeri() {
 
     }
 
-    public Printeri(Button btnLDC, Button btnServis) {
-        this.btnLDC = btnLDC;
-        this.btnServis = btnServis;
-    }
 
-    public Button getBtnLDC() {
-        return btnLDC;
-    }
-
-    public void setBtnLDC(Button btnLDC) {
-        this.btnLDC = btnLDC;
-    }
-
-    public Button getBtnServis() {
-        return btnServis;
-    }
-
-    public void setBtnServis(Button btnServis) {
-        this.btnServis = btnServis;
-    }
 
     public String getTitle() {
         return title;

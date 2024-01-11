@@ -1,24 +1,18 @@
 package com.example.projektdb;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +26,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -61,9 +54,19 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
                     Printeri printeri = dataSnapshot.getValue(Printeri.class);
-                    Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
-                    arrayList.add(printeri);
+                    if (printeri != null && printeri.isCheckBoxInformatika()) {
+                        Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
+                        arrayList.add(printeri);
+
+                        PrinterAdapter adapter = new PrinterAdapter(MainActivity.this, arrayList);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+
+                    }
+
                 }
 
                 if (arrayList.isEmpty()) {
@@ -74,62 +77,19 @@ public class MainActivity extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                PrinterAdapter adapter = new PrinterAdapter(MainActivity.this, arrayList);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                /*______________________________________Prikaz printera(informatika) u recycle-u_______________________________________________________*/
-
-
+                // PRILIKOM KLIKA
                 adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
                     @Override
-                    public void onClick(Printeri printeri) {
-
-                    }
-
-
-                    /*______________________________________btnLDC_______________________________________________________*/
-
-                    @Override
-                    public void onBtnLDCClick(Printeri printeri, int position) {
-                        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_printeri_dialog_ldc, null);
+                    public void onClick(Printeri printeri, int position) {
+                        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
                         TextInputLayout titleLayout, contentLayout;
                         TextInputEditText titleET, contentET;
-                        Spinner spinner;
-                        spinner = view.findViewById(R.id.spinner);
-                        ArrayList<Objekti> arrayListObjekti = new ArrayList<>(); // Lista objekata
-                        ObjektiAdapterSpinner objektiAdapter = new ObjektiAdapterSpinner(MainActivity.this, arrayListObjekti);
-                        DatabaseReference spinnerRef;
+                        CheckBox checkBoxInformatika, checkBoxLDC, checkBoxServis;
 
-                        // Fetch data from Firebase Realtime Database for Objekti
-                        spinnerRef = FirebaseDatabase.getInstance().getReference("objekti"); // dobavljanje liste objeakta
-                        spinnerRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                // Clear the existing data
-                                arrayListObjekti.clear();
+                        checkBoxInformatika = view.findViewById(R.id.checkBoxInformatika);
+                        checkBoxLDC = view.findViewById(R.id.checkBoxLDC);
+                        checkBoxServis = view.findViewById(R.id.checkBoxServis);
 
-                                // Iterate through dataSnapshot to get Objekti objects
-                                for (DataSnapshot objektiSnapshot : dataSnapshot.getChildren()) {
-                                    Objekti objekti = objektiSnapshot.getValue(Objekti.class);
-                                    if (objekti != null) {
-                                        // Add Objekti object to the list
-                                        arrayListObjekti.add(objekti);
-                                    }
-                                }
-
-                                // Notify the adapter that the data has changed
-                                objektiAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                // Handle the error if any
-                                Toast.makeText(MainActivity.this, "Error fetching Objekti data", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        spinner.setAdapter(objektiAdapter);// prikaz objekata u spineru
-                        /*______________Metoda uređivanja - korištena da prilikom klika preuzme parametre odabranog printera___________*/
                         titleET = view.findViewById(R.id.titleET);
                         contentET = view.findViewById(R.id.contentET);
                         titleLayout = view.findViewById(R.id.titleLayout);
@@ -244,25 +204,6 @@ public class MainActivity extends AppCompatActivity {
                         */
                     }
 
-                    @Override
-                    public void onBtnServisClick(Printeri printeri, int position) {
-
-                        // Implementacija za klik na btnLDC
-                        Log.d("YourActivity", "BtnServis je kliknut na poziciji: " + position);
-                        // Ukloni element iz ArrayList
-                        arrayList.remove(position);
-                        //Dodavanje printera u printeriServis
-                        database.getReference().child("printeriServis").push().setValue(printeri);
-                        //brisanje printera
-                        database.getReference().child("printeri").child(printeri.getKey()).removeValue(); // brisanje odabranog printera iz baze
-                        //refresh stranice
-                        // refreshData();
-                        // Obavijesti adapter o promjeni podataka
-                        //adapter.notifyItemRemoved(position);
-
-                       recreate();
-
-                    }
                 });
 
             }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class UnosObjekata extends AppCompatActivity {
         setContentView(R.layout.activity_unos_objekata);
 
         Button btnUnosObjekata = findViewById(R.id.btn_UnosObjekata);
+        Button btnPovratak = findViewById(R.id.btn_Povratak);
 
         FirebaseApp.initializeApp(UnosObjekata.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -217,6 +219,14 @@ public class UnosObjekata extends AppCompatActivity {
                         })
                         .create();
                 alertDialog.show();
+            }
+        });
+        btnPovratak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(UnosObjekata.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
