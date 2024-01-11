@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -70,14 +71,14 @@ public class UnosPrintera extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                PrinterAdapter adapter = new PrinterAdapter(UnosPrintera.this, arrayList);
+                PrinterAdapter adapter = new PrinterAdapter(UnosPrintera.this, arrayList, false);
                 recyclerView.setAdapter(adapter);
 
 
 
                 adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
 
-                                                   public void onClick(Printeri printeri, int position) {
+                                                   public void onClick(Printeri printeri) {
 
                         View view = LayoutInflater.from(UnosPrintera.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
                         TextInputLayout titleLayout, contentLayout;
@@ -173,9 +174,13 @@ public class UnosPrintera extends AppCompatActivity {
 
                     }
 
+                                                   @Override
+                                                   public void onCheckLDC(Printeri printeri, int position) {
+                                                     // za sad nista
+                                                   }
 
-                }
 
+                                               }
 
                 );
 

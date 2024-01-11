@@ -64,7 +64,12 @@ public class PrikazPrinteraServis extends AppCompatActivity {
 
 
                     @Override
-                    public void onClick(Printeri printeri, int position) {
+                    public void onClick(Printeri printeri) {
+
+                    }
+
+                    @Override
+                    public void onCheckLDC(Printeri printeri, int position) {
 
                     }
                 });

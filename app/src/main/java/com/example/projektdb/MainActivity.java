@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         PrinterAdapter adapter = new PrinterAdapter(this, arrayList);
         recyclerView.setAdapter(adapter);
 
+
         /*______________________________________Prikaz printera(informatika) u recycle-u_______________________________________________________*/
         database.getReference().child("printeri").addValueEventListener(new ValueEventListener() {
             @Override
@@ -79,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // PRILIKOM KLIKA
                 adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
+
                     @Override
-                    public void onClick(Printeri printeri, int position) {
+                    public void onClick(Printeri printeri) {
                         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
                         TextInputLayout titleLayout, contentLayout;
                         TextInputEditText titleET, contentET;
@@ -204,8 +207,13 @@ public class MainActivity extends AppCompatActivity {
                         */
                     }
 
-                });
+                    @Override
+                    public void onCheckLDC(Printeri printeri, int position) {
+                        Log.e("proba","btnLDC u main-u");
 
+                    }
+
+                });
             }
 
             @Override

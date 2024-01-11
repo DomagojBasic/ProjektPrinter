@@ -1,7 +1,6 @@
 package com.example.projektdb;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,16 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
     Context context;
     static ArrayList<Objekti> arrayListObjekti;
     static OnItemClickListener onItemClickListener;
+
+
+
+
+
     public ObjektiAdapter(Context context, ArrayList<Objekti> arrayList){
         this.context = context; //predstavlja kontekst
        this.arrayListObjekti = arrayList;
     }
+
 
 
     @NonNull
@@ -32,12 +37,13 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ObjektiAdapter.ViewHolder holder, int position) {
         holder.title.setText(arrayListObjekti.get(position).getTitle());
         holder.subtitle.setText(arrayListObjekti.get(position).getContent());
         //Prilikom klika na red poziva se metoda onClick.
-        holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayListObjekti.get(position)));
+       holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayListObjekti.get(position)));
     }
 
 
@@ -51,6 +57,17 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
             subtitle = itemView.findViewById(R.id.list_item_subtitle);
         }
     }
+
+    @Override
+    public int getItemCount() {
+
+        return arrayListObjekti.size();
+    }
+
+
+
+
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
@@ -58,10 +75,8 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
     public interface OnItemClickListener{
         void onClick(Objekti objekt);
     }
-    @Override
-    public int getItemCount() {
-        return arrayListObjekti.size();
-    }
+
+
 
 
 

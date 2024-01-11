@@ -46,7 +46,6 @@ public class UnosObjekata extends AppCompatActivity {
         TextView empty = findViewById(R.id.empty);
         RecyclerView recyclerView = findViewById(R.id.recycler);
 
-
         database.getReference().child("objekti").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -70,6 +69,7 @@ public class UnosObjekata extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
 
                 adapter.setOnItemClickListener(new ObjektiAdapter.OnItemClickListener() {
+
                     @Override
                     public void onClick(Objekti objekt) {
                         View view = LayoutInflater.from(UnosObjekata.this).inflate(R.layout.add_objekti_dialog, null);
@@ -83,7 +83,6 @@ public class UnosObjekata extends AppCompatActivity {
 
                         titleET.setText(objekt.getTitle());
                         contentET.setText(objekt.getContent());
-
 
 
                         ProgressDialog progressDialog = new ProgressDialog(UnosObjekata.this);
@@ -105,8 +104,6 @@ public class UnosObjekata extends AppCompatActivity {
                                                 // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
                                                 Toast.makeText(UnosObjekata.this,"ne smije biti ista",Toast.LENGTH_SHORT).show();
                                             }
-
-
 
                                             progressDialog.setMessage("Saving...");
                                             progressDialog.show();

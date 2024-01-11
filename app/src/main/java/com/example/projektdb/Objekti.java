@@ -4,8 +4,15 @@ public class Objekti {
 
     String key, title, content;
 
-    public Objekti() {
+    public Objekti(String key, String title, String content) {
+        this.key = key;
+        this.title = title;
+        this.content = content;
 
+
+    }
+
+    public Objekti() {
 
     }
 
@@ -33,9 +40,4 @@ public class Objekti {
         this.content = content;
     }
 
-    public Objekti(String key, String title, String content) {
-        this.key = key;
-        this.title = title;
-        this.content = content;
-    }
 }
