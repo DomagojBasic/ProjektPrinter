@@ -102,7 +102,6 @@
             android:text="List is Empty!"
             android:id="@+id/empty"/>
 
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Gumb "Izlaz iz aplikacije" na dnu ekrana -->

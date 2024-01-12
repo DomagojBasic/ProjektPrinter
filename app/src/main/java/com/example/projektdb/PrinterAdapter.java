@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -78,6 +79,8 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
            holder.checkBoxLDC.setLayoutParams(params); //causes layout update
        } else if(p.isCheckBoxLDC()) {
            holder.checkBoxLDC.setVisibility(View.GONE);
+           holder.spinner.setVisibility(View.VISIBLE);
+
        } else if(p.isCheckBoxInformatika()) {
            holder.checkBoxInformatika.setVisibility(View.GONE);
        }
@@ -91,6 +94,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, subtitle;
         Button checkBoxInformatika,checkBoxLDC, checkBoxServis;
+        Spinner spinner;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
           //definicija reda koji ce se prikazati u Recycle View
@@ -99,6 +103,10 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
             checkBoxInformatika = itemView.findViewById(R.id.checkBoxInformatika);
             checkBoxServis = itemView.findViewById(R.id.checkBoxServis);
             checkBoxLDC = itemView.findViewById(R.id.checkBoxLDC);
+            spinner = itemView.findViewById(R.id.spinner);
+
+            spinner.setVisibility(View.INVISIBLE);
+
             if(!showButtons) {
                 checkBoxInformatika.setVisibility(View.GONE);
                 checkBoxLDC.setVisibility(View.GONE);

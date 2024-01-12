@@ -73,6 +73,13 @@
             android:layout_marginBottom="0dp"
             android:text="Servis" />
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_item_subtitle"
+            android:layout_marginStart="5sp" />
+
 
     </RelativeLayout>
 
