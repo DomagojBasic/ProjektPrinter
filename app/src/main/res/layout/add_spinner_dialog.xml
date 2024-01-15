@@ -40,6 +40,30 @@
             android:layout_height="wrap_content"
             android:inputType="textCapSentences|textMultiLine" />
 
+        <CheckBox
+            android:id="@+id/checkBoxInformatika"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Inf"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBoxLDC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LDC"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBoxServis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Servis"
+            android:visibility="gone" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout

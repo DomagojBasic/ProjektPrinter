@@ -9,6 +9,13 @@ public class Printeri {
     public Objekti getLokObjekti() {
         return lokObjekti;
     }
+    public String getObjekt() {
+        if(lokObjekti != null) {
+            return lokObjekti.getTitle();
+        } else {
+            return "";
+        }
+    }
 
     public void setLokObjekti(Objekti lokObjekti) {
         this.lokObjekti = lokObjekti;

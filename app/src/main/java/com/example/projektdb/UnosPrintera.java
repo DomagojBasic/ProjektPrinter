@@ -36,7 +36,7 @@ public class UnosPrintera extends AppCompatActivity {
 
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    boolean checkBoxInformatika, checkBoxLDC, checkBoxServis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,108 +75,114 @@ public class UnosPrintera extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
 
 
-
                 adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
 
                                                    public void onClick(Printeri printeri) {
 
-                        View view = LayoutInflater.from(UnosPrintera.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
-                        TextInputLayout titleLayout, contentLayout;
-                        TextInputEditText titleET, contentET;
-
-                        boolean checkBoxInformatika, checkBoxLDC, checkBoxServis;
+                                                       View view = LayoutInflater.from(UnosPrintera.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
+                                                       TextInputLayout titleLayout, contentLayout;
+                                                       TextInputEditText titleET, contentET;
 
 
-                        titleET = view.findViewById(R.id.titleET);
-                        contentET = view.findViewById(R.id.contentET);
-                        titleLayout = view.findViewById(R.id.titleLayout);
-                        contentLayout = view.findViewById(R.id.contentLayout);
+                                                       titleET = view.findViewById(R.id.titleET);
+                                                       contentET = view.findViewById(R.id.contentET);
+                                                       titleLayout = view.findViewById(R.id.titleLayout);
+                                                       contentLayout = view.findViewById(R.id.contentLayout);
 
-                        titleET.setText(printeri.getTitle());
-                        contentET.setText(printeri.getContent());
+                                                       titleET.setText(printeri.getTitle());
+                                                       contentET.setText(printeri.getContent());
 
-                       checkBoxInformatika = ((CheckBox) findViewById(R.id.checkBoxInformatika)).isChecked();
-                       checkBoxLDC = ((CheckBox) findViewById(R.id.checkBoxLDC)).isChecked();
-                       checkBoxServis = ((CheckBox) findViewById(R.id.checkBoxServis)).isChecked();
-
-
-                        ProgressDialog progressDialog = new ProgressDialog(UnosPrintera.this);
-
-                        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(UnosPrintera.this)
-                                .setTitle("Edit")
-                                .setView(view)
-                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
-                                            titleLayout.setError("This field is required!");
-                                        } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
-                                            contentLayout.setError("This field is required!");
-                                        } else {
-                                            String unesenaVrijednost = Objects.requireNonNull(titleET.getText()).toString();
-                                            // Provjera je li već unesena ista vrijednost
-                                            if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
-                                                // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
-                                                Toast.makeText(UnosPrintera.this, "ne smije biti ista", Toast.LENGTH_SHORT).show();
-                                            }
+                                                       checkBoxInformatika = ((CheckBox) view.findViewById(R.id.checkBoxInformatika)).isChecked();
+                                                       checkBoxLDC = ((CheckBox) view.findViewById(R.id.checkBoxLDC)).isChecked();
+                                                       checkBoxServis = ((CheckBox) view.findViewById(R.id.checkBoxServis)).isChecked();
 
 
-                                            progressDialog.setMessage("Saving...");
-                                            progressDialog.show();
-                                            Printeri printeri1 = new Printeri();
-                                            printeri1.setTitle(titleET.getText().toString());
-                                            printeri1.setContent(contentET.getText().toString());
-                                           // ne znam kako prikazati checkbox!!
-                                            // printeri1.setCheckBoxInformatika(true);
-                                            database.getReference().child("printeri").child(printeri.getKey()).setValue(printeri1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    progressDialog.dismiss();
-                                                    dialogInterface.dismiss();
-                                                    Toast.makeText(UnosPrintera.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(UnosPrintera.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-                                    }
-                                })
-                                .setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        progressDialog.setTitle("Deleting...");
-                                        progressDialog.show();
-                                        database.getReference().child("printeri").child(printeri.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(UnosPrintera.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                progressDialog.dismiss();
-                                            }
-                                        });
-                                    }
-                                }).create();
-                        alertDialog.show();
+                                                       ProgressDialog progressDialog = new ProgressDialog(UnosPrintera.this);
 
-                    }
+                                                       androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(UnosPrintera.this)
+                                                               .setTitle("Edit")
+                                                               .setView(view)
+                                                               .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                                                   @Override
+                                                                   public void onClick(DialogInterface dialogInterface, int i) {
+                                                                       if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
+                                                                           titleLayout.setError("This field is required!");
+                                                                       } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
+                                                                           contentLayout.setError("This field is required!");
+                                                                       } else {
+                                                                           String unesenaVrijednost = Objects.requireNonNull(titleET.getText()).toString();
+                                                                           // Provjera je li već unesena ista vrijednost
+                                                                           if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
+                                                                               // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
+                                                                               Toast.makeText(UnosPrintera.this, "ne smije biti ista", Toast.LENGTH_SHORT).show();
+                                                                           }
+
+
+                                                                           progressDialog.setMessage("Saving...");
+                                                                           progressDialog.show();
+                                                                           Printeri printeri1 = new Printeri();
+                                                                           printeri1.setTitle(titleET.getText().toString());
+                                                                           printeri1.setContent(contentET.getText().toString());
+
+                                                                           database.getReference().child("printeri").child(printeri.getKey()).setValue(printeri1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                               @Override
+                                                                               public void onSuccess(Void unused) {
+                                                                                   progressDialog.dismiss();
+                                                                                   dialogInterface.dismiss();
+                                                                                   Toast.makeText(UnosPrintera.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                                                               }
+                                                                           }).addOnFailureListener(new OnFailureListener() {
+                                                                               @Override
+                                                                               public void onFailure(@NonNull Exception e) {
+                                                                                   progressDialog.dismiss();
+                                                                                   Toast.makeText(UnosPrintera.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
+                                                                               }
+                                                                           });
+                                                                       }
+                                                                   }
+                                                               })
+                                                               .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                                                                   @Override
+                                                                   public void onClick(DialogInterface dialogInterface, int i) {
+                                                                       dialogInterface.dismiss();
+                                                                   }
+                                                               })
+                                                               .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                                                   @Override
+                                                                   public void onClick(DialogInterface dialogInterface, int i) {
+                                                                       progressDialog.setTitle("Deleting...");
+                                                                       progressDialog.show();
+                                                                       database.getReference().child("printeri").child(printeri.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                           @Override
+                                                                           public void onSuccess(Void unused) {
+                                                                               progressDialog.dismiss();
+                                                                               Toast.makeText(UnosPrintera.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                                                           }
+                                                                       }).addOnFailureListener(new OnFailureListener() {
+                                                                           @Override
+                                                                           public void onFailure(@NonNull Exception e) {
+                                                                               progressDialog.dismiss();
+                                                                           }
+                                                                       });
+                                                                   }
+                                                               }).create();
+                                                       alertDialog.show();
+
+                                                   }
 
                                                    @Override
                                                    public void onCheckLDC(Printeri printeri, int position) {
-                                                     // za sad nista
+                                                       // za sad nista
+                                                   }
+
+                                                   @Override
+                                                   public void onCheckServis(Printeri printeri, int position) {
+
+                                                   }
+
+                                                   @Override
+                                                   public void onCheckInformatika(Printeri printeri, int position) {
+
                                                    }
 
 

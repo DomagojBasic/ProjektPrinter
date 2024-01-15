@@ -6,10 +6,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,10 +36,24 @@ public class PrikazPrinteraServis extends AppCompatActivity {
 
         TextView empty = findViewById(R.id.empty);
         RecyclerView recyclerView = findViewById(R.id.recycler);
-
-
         ArrayList<Printeri> arrayList = new ArrayList<>();
-        PrinterAdapter adapterServis = new PrinterAdapter(PrikazPrinteraServis.this, arrayList);
+        ArrayList<Objekti> arrayListObjekti = new ArrayList<>(); // za objekte
+
+        PrinterAdapter adapter = new PrinterAdapter(this, arrayList);
+
+
+        database.getReference().child("objekti").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d : snapshot.getChildren()) {
+                    arrayListObjekti.add(d.getValue(Objekti.class));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+
 
         database.getReference().child("printeri").addValueEventListener(new ValueEventListener() {
             @Override
@@ -44,7 +66,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                         Objects.requireNonNull(printeri).setKey(dataSnapshot.getKey());
                         arrayList.add(printeri);
 
-                        PrinterAdapter adapter = new PrinterAdapter(PrikazPrinteraServis.this, arrayList);
+                        PrinterAdapter adapter = new PrinterAdapter(PrikazPrinteraServis.this, arrayList, arrayListObjekti);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
@@ -60,7 +82,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                adapterServis.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
+                adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
 
 
                     @Override
@@ -70,9 +92,59 @@ public class PrikazPrinteraServis extends AppCompatActivity {
 
                     @Override
                     public void onCheckLDC(Printeri printeri, int position) {
+                        // ovo radi
+                        Log.e("proba","ldc");
+                    }
+
+                    @Override
+                    public void onCheckServis(Printeri printeri, int position) {
+
 
                     }
+
+                    @Override
+                    public void onCheckInformatika(Printeri printeri, int position) {
+
+                        View view = LayoutInflater.from(PrikazPrinteraServis.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
+                        TextInputLayout titleLayout, contentLayout;
+                        TextInputEditText titleET, contentET;
+                        CheckBox checkBoxInformatika, checkBoxLDC, checkBoxServis;
+
+                        checkBoxInformatika = view.findViewById(R.id.checkBoxInformatika);
+                        checkBoxLDC = view.findViewById(R.id.checkBoxLDC);
+                        checkBoxServis = view.findViewById(R.id.checkBoxServis);
+
+                        titleET = view.findViewById(R.id.titleET);
+                        contentET = view.findViewById(R.id.contentET);
+                        titleLayout = view.findViewById(R.id.titleLayout);
+                        contentLayout = view.findViewById(R.id.contentLayout);
+
+                        titleET.setText(printeri.getTitle());
+                        contentET.setText(printeri.getContent());
+
+                        Printeri printeri1 = new Printeri();
+                        printeri1.setTitle(titleET.getText().toString());
+                        printeri1.setContent(contentET.getText().toString());
+                        printeri1.setCheckBoxServis(false);
+                        printeri1.setCheckBoxInformatika(true);
+
+                        database.getReference().child("printeri").child(printeri.getKey()).setValue(printeri1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                                Toast.makeText(PrikazPrinteraServis.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Toast.makeText(PrikazPrinteraServis.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 });
+
+
 
 
                 Button btnPovratak = findViewById(R.id.btn_Povratak);

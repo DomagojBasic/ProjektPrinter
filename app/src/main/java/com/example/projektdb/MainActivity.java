@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -37,14 +38,32 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    ArrayList<Objekti> arrayListObjekti = new ArrayList<Objekti>();
+    String[] stringListObjekti;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Button btnIzlaz = findViewById(R.id.btn_Povratak);
         FirebaseApp.initializeApp(MainActivity.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        database.getReference().child("objekti").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d : snapshot.getChildren()) {
+                    arrayListObjekti.add(d.getValue(Objekti.class));
+                }
+                stringListObjekti = new String[arrayListObjekti.size()];
+                for(int i = 0; i < arrayListObjekti.size(); i++) {
+                    stringListObjekti[i] = arrayListObjekti.get(i).title;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         TextView empty = findViewById(R.id.empty);
         RecyclerView recyclerView = findViewById(R.id.recycler);
@@ -183,11 +202,13 @@ public class MainActivity extends AppCompatActivity {
                         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_spinner_dialog, null);
                         TextInputLayout titleLayout, contentLayout;
                         TextInputEditText titleET, contentET;
+                        Spinner spinner;
 
                         titleET = view.findViewById(R.id.titleET);
                         contentET = view.findViewById(R.id.contentET);
                         titleLayout = view.findViewById(R.id.titleLayout);
                         contentLayout = view.findViewById(R.id.contentLayout);
+                        spinner = view.findViewById(R.id.spinner);
 
                         titleET.setText(printeri.getTitle());
                         contentET.setText(printeri.getContent());
@@ -200,67 +221,32 @@ public class MainActivity extends AppCompatActivity {
                         contentET.setFocusable(false);
                         contentET.setClickable(false);
 
+                        /*_________________dodan objekt u spinner________________________________*/
 
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                                android.R.layout.simple_spinner_item, stringListObjekti);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        spinner.setAdapter(adapter);
+
+                        /*_________________dodan objekt u spinner________________________________*/
                         ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
                         androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
                                 .setTitle("Odaberi objekat za printer")
                                 .setView(view)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
 
-
-
-
-
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         {
-
-// PRIKAZIVANJE SPINNERA ! _______________________________________________________________________________________
-
-                                            Spinner spinner;
-                                            spinner = view.findViewById(R.id.spinner);
-                                            ArrayList<Objekti> arrayListObjekti = new ArrayList<>();
-                                            ObjektiAdapterSpinner objektiAdapter = new ObjektiAdapterSpinner(MainActivity.this, arrayListObjekti);
-                                            DatabaseReference spinnerRef;
-
-                                            // Fetch data from Firebase Realtime Database for Objekti
-                                            spinnerRef = FirebaseDatabase.getInstance().getReference("objekti");
-                                            spinnerRef.addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                    // Clear the existing data
-                                                    arrayListObjekti.clear();
-
-                                                    // Iterate through dataSnapshot to get Objekti objects
-                                                    for (DataSnapshot objektiSnapshot : dataSnapshot.getChildren()) {
-                                                        Objekti objekti = objektiSnapshot.getValue(Objekti.class);
-                                                        if (objekti != null) {
-                                                            // Add Objekti object to the list
-                                                            arrayListObjekti.add(objekti);
-                                                        }
-                                                    }
-
-                                                    // Notify the adapter that the data has changed
-                                                    objektiAdapter.notifyDataSetChanged();
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                    // Handle the error if any
-                                                    Toast.makeText(MainActivity.this, "Error fetching Objekti data", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-
-                                            // Set adapter for the spinner
-                                            spinner.setAdapter(objektiAdapter);
-// PRIKAZIVANJE SPINNERA ! _______________________________________________________________________________________
-
                                             progressDialog.setMessage("Saving...");
                                             progressDialog.show();
                                             Printeri printeri1 = new Printeri();
                                             printeri1.setTitle(titleET.getText().toString());
                                             printeri1.setContent(contentET.getText().toString());
-                                            // potrebno dodati spinner - objekat?
+                                            printeri1.setCheckBoxLDC(true); // postavljanje checkbox-a za prebacivanje u LDC
+                                            printeri1.setLokObjekti(arrayListObjekti.get((int)spinner.getSelectedItemId())); // dohvacanje odabira u spinneru
+
 
                                             database.getReference().child("printeri").child(printeri.getKey()).setValue(printeri1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -308,16 +294,65 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
+                    @Override
+                    public void onCheckServis(Printeri printeri, int position) {
+
+                        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
+                        TextInputLayout titleLayout, contentLayout;
+                        TextInputEditText titleET, contentET;
+                        CheckBox checkBoxInformatika, checkBoxLDC, checkBoxServis;
+
+                        checkBoxInformatika = view.findViewById(R.id.checkBoxInformatika);
+                        checkBoxLDC = view.findViewById(R.id.checkBoxLDC);
+                        checkBoxServis = view.findViewById(R.id.checkBoxServis);
+
+                        titleET = view.findViewById(R.id.titleET);
+                        contentET = view.findViewById(R.id.contentET);
+                        titleLayout = view.findViewById(R.id.titleLayout);
+                        contentLayout = view.findViewById(R.id.contentLayout);
+
+                        titleET.setText(printeri.getTitle());
+                        contentET.setText(printeri.getContent());
+
+                        Printeri printeri1 = new Printeri();
+                        printeri1.setTitle(titleET.getText().toString());
+                        printeri1.setContent(contentET.getText().toString());
+                        printeri1.setCheckBoxServis(true);
+                        printeri1.setCheckBoxInformatika(false);
+
+                        database.getReference().child("printeri").child(printeri.getKey()).setValue(printeri1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                                Toast.makeText(MainActivity.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Toast.makeText(MainActivity.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCheckInformatika(Printeri printeri, int position) {
+
+                    }
                 });
             }
-
-
 
 
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        btnIzlaz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

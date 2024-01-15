@@ -24,7 +24,7 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
 
     public ObjektiAdapter(Context context, ArrayList<Objekti> arrayList){
         this.context = context; //predstavlja kontekst
-       this.arrayListObjekti = arrayList;
+        this.arrayListObjekti = arrayList;
     }
 
 
@@ -43,7 +43,7 @@ public class ObjektiAdapter extends RecyclerView.Adapter<ObjektiAdapter.ViewHold
         holder.title.setText(arrayListObjekti.get(position).getTitle());
         holder.subtitle.setText(arrayListObjekti.get(position).getContent());
         //Prilikom klika na red poziva se metoda onClick.
-       holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayListObjekti.get(position)));
+        holder.itemView.setOnClickListener(view -> onItemClickListener.onClick(arrayListObjekti.get(position)));
     }
 
 
