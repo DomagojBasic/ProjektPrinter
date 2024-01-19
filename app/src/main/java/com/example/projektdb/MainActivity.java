@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(MainActivity.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
+
         database.getReference().child("objekti").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -59,8 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 stringListObjekti = new String[arrayListObjekti.size()];
                 for(int i = 0; i < arrayListObjekti.size(); i++) {
                     stringListObjekti[i] = arrayListObjekti.get(i).title;
+
                 }
+
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
@@ -104,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 // PRILIKOM KLIKA
                 adapter.setOnItemClickListener(new PrinterAdapter.OnItemClickListener() {
 
+
                     @Override
                     public void onClick(Printeri printeri) {
                         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_inf_serv_ldc_printeri_dialog, null);
@@ -140,8 +148,7 @@ public class MainActivity extends AppCompatActivity {
                                             String unesenaVrijednost = Objects.requireNonNull(titleET.getText()).toString();
                                             // Provjera je li već unesena ista vrijednost
                                             if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
-                                                // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
-                                                Toast.makeText(MainActivity.this, "ne smije biti ista", Toast.LENGTH_SHORT).show();
+
                                             }
 
 
@@ -254,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                                                     progressDialog.dismiss();
                                                     dialogInterface.dismiss();
                                                     Toast.makeText(MainActivity.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                                    recreate();
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
@@ -291,6 +299,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }).create();
                         alertDialog.show();
+
+
 
                     }
 

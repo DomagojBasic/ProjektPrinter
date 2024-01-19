@@ -134,6 +134,7 @@ public class PrikazPrinteraLDC extends AppCompatActivity {
                             public void onSuccess(Void unused) {
 
                                 Toast.makeText(PrikazPrinteraLDC.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                recreate();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

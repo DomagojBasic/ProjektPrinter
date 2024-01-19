@@ -41,7 +41,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
 
         PrinterAdapter adapter = new PrinterAdapter(this, arrayList);
 
-
+/*
         database.getReference().child("objekti").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -53,7 +53,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-
+*/
 
         database.getReference().child("printeri").addValueEventListener(new ValueEventListener() {
             @Override

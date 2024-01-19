@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,8 +114,7 @@ public class UnosPrintera extends AppCompatActivity {
                                                                            String unesenaVrijednost = Objects.requireNonNull(titleET.getText()).toString();
                                                                            // Provjera je li već unesena ista vrijednost
                                                                            if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
-                                                                               // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
-                                                                               Toast.makeText(UnosPrintera.this, "ne smije biti ista", Toast.LENGTH_SHORT).show();
+
                                                                            }
 
 
@@ -217,15 +217,57 @@ public class UnosPrintera extends AppCompatActivity {
                 TextInputEditText titleET, contentET;
                 titleET = view1.findViewById(R.id.titleET);
                 contentET = view1.findViewById(R.id.contentET);
+                checkBoxLDC.setVisibility(View.GONE);
+
+
+
+                    checkBoxInformatika.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                checkBoxLDC.setChecked(false);
+                                checkBoxServis.setChecked(false);
+                            }
+                        }
+                    });
+
+                    checkBoxServis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                checkBoxLDC.setChecked(false);
+                                checkBoxInformatika.setChecked(false);
+                            }
+                        }
+                    });
+
+                    checkBoxLDC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                checkBoxServis.setChecked(false);
+                                checkBoxInformatika.setChecked(false);
+                            }
+                        }
+                    });
+
+
+
                 AlertDialog alertDialog = new AlertDialog.Builder(UnosPrintera.this).setTitle("Dodaj").setView(view1).setPositiveButton("Dodaj", new DialogInterface.OnClickListener() {
                             @Override
+
                             public void onClick(DialogInterface dialogInterface, int i) {
+
+
                                 if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
                                     titleLayout.setError("This field is required!");
                                 } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
                                     contentLayout.setError("This field is required!");
                                 } else {
-                                    ProgressDialog dialog = new ProgressDialog(UnosPrintera.this);
+
+                                    if(checkBoxInformatika.isChecked() ||checkBoxLDC.isChecked() || checkBoxServis.isChecked()) {
+
+                                        ProgressDialog dialog = new ProgressDialog(UnosPrintera.this);
                                     dialog.setMessage("Storing in Database...");
                                     dialog.show();
                                     Printeri printeri = new Printeri();
@@ -234,20 +276,27 @@ public class UnosPrintera extends AppCompatActivity {
                                     printeri.setCheckBoxInformatika(checkBoxInformatika.isChecked());
                                     printeri.setCheckBoxLDC(checkBoxLDC.isChecked());
                                     printeri.setCheckBoxServis(checkBoxServis.isChecked());
-                                    database.getReference().child("printeri").push().setValue(printeri).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            dialog.dismiss();
-                                            dialogInterface.dismiss();
-                                            Toast.makeText(UnosPrintera.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            dialog.dismiss();
-                                            Toast.makeText(UnosPrintera.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+
+
+
+                                        database.getReference().child("printeri").push().setValue(printeri).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                dialog.dismiss();
+                                                dialogInterface.dismiss();
+                                                Toast.makeText(UnosPrintera.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                dialog.dismiss();
+                                                Toast.makeText(UnosPrintera.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }else{
+                                        Toast.makeText(UnosPrintera.this, "Morate odabrati informatiku ili servis", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                 }
                             }
                         })

@@ -17,9 +17,6 @@
             android:background="?attr/colorPrimary">
             <!-- Customize your Toolbar -->
         </com.google.android.material.appbar.MaterialToolbar>
-
-        <!-- ... Ostatak vašeg koda ... -->
-
         <Button
             android:id="@+id/btn_PritneriNaServisu"
             android:layout_width="match_parent"
@@ -32,11 +29,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"></LinearLayout>
 
         <Button
             android:id="@+id/btn_PritneriLDC"
@@ -51,19 +43,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"></LinearLayout>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"></LinearLayout>
 
         <Button
             android:id="@+id/btn_mapa"
@@ -90,10 +69,16 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/recycler"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -104,7 +89,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Gumb "Izlaz iz aplikacije" na dnu ekrana -->
     <Button
         android:id="@+id/btn_Povratak"
         android:layout_width="match_parent"
@@ -113,11 +97,14 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="0dp"
         android:text="Izlaz iz aplikacije"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <!-- Gumb "Izlaz iz aplikacije" na dnu ekrana -->
+
 
     <!-- ... Ostatak vašeg koda ... -->
 

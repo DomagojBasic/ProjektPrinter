@@ -101,8 +101,6 @@ public class UnosObjekata extends AppCompatActivity {
                                             String unesenaVrijednost = Objects.requireNonNull(titleET.getText()).toString();
                                             // Provjera je li već unesena ista vrijednost
                                             if (Objects.requireNonNull(titleET.getText()).toString().contains(Objects.requireNonNull(titleET.getText()).toString())) {
-                                                // Već je unesena ista vrijednost, možete poduzeti odgovarajuće mjere
-                                                Toast.makeText(UnosObjekata.this,"ne smije biti ista",Toast.LENGTH_SHORT).show();
                                             }
 
                                             progressDialog.setMessage("Saving...");

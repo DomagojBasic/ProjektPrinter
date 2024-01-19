@@ -82,7 +82,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
             holder.checkBoxLDC.setVisibility(View.INVISIBLE);
             holder.checkBoxInformatika.setVisibility(View.VISIBLE);
 
-            holder.spinner.setVisibility(View.VISIBLE);
+            holder.spinner.setVisibility(View.GONE);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context.getApplicationContext(),
                     android.R.layout.simple_spinner_item, this.objekti);
@@ -102,6 +102,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
             holder.spinner.setLayoutParams(objekat); //causes layout update
 
 
+
         } else if (p.isCheckBoxLDC()) {
             holder.checkBoxLDC.setVisibility(View.GONE);
             holder.checkBoxServis.setVisibility(View.GONE);
@@ -119,6 +120,15 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.checkBoxInformatika.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             holder.checkBoxLDC.setLayoutParams(params); //causes layout update
+            int idx = 0;
+            for(int i = 0; i < objekti.length; i++) {
+                if(objekti[i].equals(p.getObjekt())){
+                    idx = i;
+                    break;
+                }
+
+            }
+            holder.spinner.setSelection(idx);
 
 
 
