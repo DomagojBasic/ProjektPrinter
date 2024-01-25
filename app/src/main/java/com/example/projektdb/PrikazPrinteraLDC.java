@@ -71,7 +71,7 @@ public class PrikazPrinteraLDC extends AppCompatActivity {
 
                         PrinterAdapter adapter = new PrinterAdapter(PrikazPrinteraLDC.this, arrayList,arrayListObjekti);
                         recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+                       // adapter.notifyDataSetChanged();
 
                     }
                 }
@@ -99,7 +99,6 @@ public class PrikazPrinteraLDC extends AppCompatActivity {
 
                     @Override
                     public void onCheckServis(Printeri printeri, int position) {
-                        Log.e("proba","servis");
                     }
 
                     @Override

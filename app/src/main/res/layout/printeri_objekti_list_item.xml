@@ -11,9 +11,10 @@
     android:layout_marginTop="4sp"
     android:layout_marginBottom="2sp">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100sp"
+        android:layout_height="120sp"
         android:background="#F8E6E6"
         android:padding="10sp"
         tools:ignore="MissingConstraints">
@@ -73,12 +74,33 @@
             android:layout_marginBottom="0dp"
             android:text="Servis" />
 
+
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_subtitle"
             android:layout_marginStart="5sp" />
+
+        <TextView
+            android:id="@+id/textObjekt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textDatum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:textSize="14dp"
+            android:text="datum"
+            android:visibility="visible" />
+
+
 
 
     </RelativeLayout>

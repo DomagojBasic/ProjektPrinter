@@ -1,7 +1,7 @@
 package com.example.projektdb;
 
 public class Printeri {
-    String key, title, content, lokacija;
+    String key, title, content, lokacija,datum;
     Objekti lokObjekti;
     boolean checkBoxInformatika, checkBoxServis, checkBoxLDC;
 
@@ -29,7 +29,7 @@ public class Printeri {
         this.lokacija = lokacija;
     }
 
-    public Printeri(String key, String title, String content, String lokacija, boolean checkBoxInformatika, boolean checkBoxServis, boolean checkBoxLDC, Objekti lokObjekti) {
+    public Printeri(String key, String title, String content, String lokacija, boolean checkBoxInformatika, boolean checkBoxServis, boolean checkBoxLDC, Objekti lokObjekti,String datum) {
         this.key = key;
         this.lokObjekti = lokObjekti;
         this.title = title;
@@ -38,6 +38,7 @@ public class Printeri {
         this.checkBoxInformatika = checkBoxInformatika;
         this.checkBoxServis = checkBoxServis;
         this.checkBoxLDC = checkBoxLDC;
+        this.datum = datum;
     }
 
 
@@ -68,6 +69,13 @@ public class Printeri {
     public Printeri() {
     }
 
+    public String getDatum() {
+        return datum;
+    }
+
+    public void setDatum(String datum) {
+        this.datum = datum;
+    }
 
     public String getTitle() {
         return title;

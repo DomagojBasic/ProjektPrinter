@@ -82,7 +82,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
             holder.checkBoxLDC.setVisibility(View.INVISIBLE);
             holder.checkBoxInformatika.setVisibility(View.VISIBLE);
 
-            holder.spinner.setVisibility(View.GONE);
+           // holder.spinner.setVisibility(View.VISIBLE);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context.getApplicationContext(),
                     android.R.layout.simple_spinner_item, this.objekti);
@@ -109,6 +109,7 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
 
             holder.spinner.setVisibility(View.VISIBLE);
 
+
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context.getApplicationContext(),
                     android.R.layout.simple_spinner_item, this.objekti);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -128,12 +129,27 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
                 }
 
             }
+
             holder.spinner.setSelection(idx);
 
+            //holder.spinner.setVisibility(View.INVISIBLE);
+            holder.textObjekt.setVisibility(View.VISIBLE);
+            //Pozicija Objekata
+            RelativeLayout.LayoutParams textObjekt = (RelativeLayout.LayoutParams) holder.textObjekt.getLayoutParams();
+            textObjekt.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            holder.spinner.setLayoutParams(textObjekt); //causes layout update
+
+
+            holder.datum.setVisibility(View.VISIBLE);
+            holder.datum.setText(p.getDatum());
 
 
 
-        } else if (p.isCheckBoxInformatika()) {
+
+
+
+        }
+        else if (p.isCheckBoxInformatika()) {
             holder.checkBoxInformatika.setVisibility(View.GONE);
             holder.spinner.setVisibility(View.INVISIBLE);
         }
@@ -144,9 +160,10 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
 
     /*Metoda 3. Koristi za pristup i manipulaciju title i subtitle TextView elementima unutar svakog pojedinačnog reda u RecyclerView-u.*/
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, subtitle;
+        TextView title, subtitle, textObjekt,datum;
         Button checkBoxInformatika, checkBoxLDC, checkBoxServis;
         Spinner spinner;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -157,6 +174,10 @@ public class PrinterAdapter extends RecyclerView.Adapter<PrinterAdapter.ViewHold
             checkBoxServis = itemView.findViewById(R.id.checkBoxServis);
             checkBoxLDC = itemView.findViewById(R.id.checkBoxLDC);
             spinner = itemView.findViewById(R.id.spinner);
+            datum = itemView.findViewById(R.id.textDatum);
+
+
+            textObjekt = itemView.findViewById(R.id.textObjekt);
 
             spinner.setVisibility(View.INVISIBLE);
 

@@ -200,7 +200,12 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback {
         mMap = googleMap;
         // postavljanje pozicije karte i zoom faktora
         LatLng rijeka = new LatLng(45.33573, 14.41609);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rijeka, 11f));
+
+       //LatLng djakovo = new LatLng(45.2976, 18.41006);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rijeka, 15f));
+
+
+
     }
     @Override
     protected void onStart() {

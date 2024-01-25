@@ -68,7 +68,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
 
                         PrinterAdapter adapter = new PrinterAdapter(PrikazPrinteraServis.this, arrayList, arrayListObjekti);
                         recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+                       // adapter.notifyDataSetChanged();
 
 
                     }
@@ -133,6 +133,7 @@ public class PrikazPrinteraServis extends AppCompatActivity {
                             public void onSuccess(Void unused) {
 
                                 Toast.makeText(PrikazPrinteraServis.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                recreate();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

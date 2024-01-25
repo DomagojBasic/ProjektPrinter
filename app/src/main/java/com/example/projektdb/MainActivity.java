@@ -34,7 +34,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                         PrinterAdapter adapter = new PrinterAdapter(MainActivity.this, arrayList);
                         recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+                       // adapter.notifyDataSetChanged();
 
 
                     }
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                                                     progressDialog.dismiss();
                                                     dialogInterface.dismiss();
                                                     Toast.makeText(MainActivity.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                                    recreate();
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
@@ -210,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                         TextInputLayout titleLayout, contentLayout;
                         TextInputEditText titleET, contentET;
                         Spinner spinner;
+                        String datum;
 
                         titleET = view.findViewById(R.id.titleET);
                         contentET = view.findViewById(R.id.contentET);
@@ -254,6 +259,11 @@ public class MainActivity extends AppCompatActivity {
                                             printeri1.setCheckBoxLDC(true); // postavljanje checkbox-a za prebacivanje u LDC
                                             printeri1.setLokObjekti(arrayListObjekti.get((int)spinner.getSelectedItemId())); // dohvacanje odabira u spinneru
 
+                                            // Set current date
+                                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                            String currentDate = sdf.format(new Date());
+                                            printeri1.setDatum(currentDate);
+                                            Log.e("datum","datum: "+ printeri1.datum);
 
                                             database.getReference().child("printeri").child(printeri.getKey()).setValue(printeri1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -289,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                                             public void onSuccess(Void unused) {
                                                 progressDialog.dismiss();
                                                 Toast.makeText(MainActivity.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                                recreate();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -335,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
 
                                 Toast.makeText(MainActivity.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                recreate();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -371,6 +383,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnPrinteriNaLDC = findViewById(R.id.btn_PritneriLDC);
         Button btnMapa = findViewById(R.id.btn_mapa);
 
+        /*
+
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -379,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+         */
 
         btnPrinteriNaLDC.setOnClickListener(new View.OnClickListener() {
             @Override
